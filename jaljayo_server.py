@@ -1,1 +1,0 @@
-#this it jaljayo python server
