@@ -10,4 +10,4 @@ sleep_data_router = APIRouter(
 
 @sleep_data_router.post("/sleep/data")
 async def receive_subject_id_api(subject_id: int = Body(...)):
-    return {"sleep_list" : sleep_wake_classification(subject_id=subject_id)}
+    return sleep_wake_classification(subject_id=subject_id)

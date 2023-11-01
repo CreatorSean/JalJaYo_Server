@@ -16,5 +16,4 @@ def server():
 
 
 if __name__ == "__main__":
-    # Process(target=oversee_watch_status).start()
     Process(target=server).start()

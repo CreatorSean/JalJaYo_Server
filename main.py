@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from apis.version1.ai_router import ai_router
 from apis.sleep_data_router import sleep_data_router
+from apis.watch_data_router import watch_data_router
 
 # import cachemanager
 # import database as db
@@ -32,6 +33,7 @@ app.add_middleware(
 
 app.include_router(router=ai_router)
 app.include_router(router=sleep_data_router)
+app.include_router(router=watch_data_router)
 
 # 플러터 웹 파일 static file 선언
 # app.mount(
