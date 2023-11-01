@@ -1,57 +1,48 @@
-from enum import Enum
-
 from fastapi import FastAPI
-from pydantic import BaseModel
-from pydantic import Field
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from apis.version1.ai_router import ai_router
+
+# import cachemanager
+# import database as db
+# from routes.flutter_routes import flutter_router
+# from routes.patient_routes import patient_router
+# from routes.alarm_routes import alarm_router
+# from routes.alarmType_routes import alarmType_router
+# from routes.room_routes import room_router
+# from routes.download_routes import download_router
+# from routes.simul_alarm_routes import simulationAlarm_router
+# from routes.watch_routes import watch_router
+# from constants import absolute_path
 
 app = FastAPI()
+# cm = cachemanager.CacheManager()
 
-class ModelName(str, Enum):
-    alexnet = "alexnet"
-    resnet = "resnet"
-    lenet = "lenet"
+# CORS 설정
+origins = ["*"]
 
-class Datainput(BaseModel):
-    name: str
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-fake_items_db = [{"item_name" : "Foo"}, {"item_name" : "Bar"}, {"item_name" : "Baz"}]
+app.include_router(router=ai_router)
 
+# 플러터 웹 파일 static file 선언
+# app.mount(
+#     "/web",
+#     StaticFiles(directory=absolute_path + "/web/"),
+#     name="web",
+# )
 
-
-@app.get("/")
-def root():
-    return {"message" : "Hello World"}
-
-@app.post("/")
-def home_post(data_request: Datainput):
-    return {"Hello": "POST", "msg": data_request.name}
-
-@app.get("/home")
-def home():
-    return {'message' : "home"}
-
-@app.get("/home/{name}")
-def read_name(name:str):
-    return {'name' : name}
-
-@app.get("/home_err/{name}")
-def read_name_err(name:int):
-    return {'name' : name}
-
-@app.get("/models/{model_name}")
-async def get_model(model_name: ModelName):
-    if model_name is ModelName.alexnet:
-        return {"model_name" : model_name, "message": "Deep Learning FTW!",}
-    
-    if model_name is ModelName.lenet:
-        return {"model_name" : model_name, "message": "LeCNN all the images",}
-    
-    return {"model_name" : model_name, "message": "Have some residuals",}
-
-@app.get("/items/{item_id}")
-def read_item(item_id:str, skip:int = 0, limit: int = 10):
-    return fake_items_db[skip : skip + limit]
-
-
-
-
+# app.include_router(router=flutter_router)
+# app.include_router(router=patient_router)
+# app.include_router(router=alarm_router)
+# app.include_router(router=alarmType_router)
+# app.include_router(router=room_router)
+# app.include_router(router=download_router)
+# app.include_router(router=simulationAlarm_router)
+# app.include_router(router=watch_router)
