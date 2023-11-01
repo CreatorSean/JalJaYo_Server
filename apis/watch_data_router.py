@@ -3,11 +3,11 @@ from fastapi import HTTPException
 from fastapi import Body
 from machine_learning.predict import sleep_wake_classification
 
-sleep_data_router = APIRouter(
+watch_data_router = APIRouter(
     prefix="/api",
     responses={404: {"description": "Not found"}},
 )
 
-@sleep_data_router.post("/sleep/data")
-async def receive_subject_id_api(subject_id: int = Body(...)):
-    return {"sleep_list" : sleep_wake_classification(subject_id=subject_id)}
+@watch_data_router.post("/watch/data")
+async def receive_sleep_counter_api(conuter: int = Body(...)):
+    return {"watch_list" : [0] * conuter}
